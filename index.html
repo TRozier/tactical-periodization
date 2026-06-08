@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stivers Soccer — Tactical Periodization</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black:#0a0a0a;--dark:#111318;--card:#181c24;--border:#252a35;
+  --gold:#f5a623;--gold-dim:#b87a1a;--white:#f0f0f0;--muted:#6b7280;
+  --recovery:#3b82f6;--resistance:#ef4444;--speed:#f59e0b;
+  --reaction:#8b5cf6;--activation:#10b981;--matchday:#f5a623;
+  --compensatory:#6b7280;--summer:#22d3ee;--staffled:#64748b;
+  --block1:#16a34a;--block2:#0284c7;--block3:#7c3aed;--b4:#dc2626;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--black);color:var(--white);font-family:'DM Sans',sans-serif;min-height:100vh;}
+
+/* HEADER */
+header{background:var(--dark);border-bottom:2px solid var(--gold);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;}
+.logo-mark{width:40px;height:40px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--black);flex-shrink:0;}
+.header-left{display:flex;align-items:center;gap:12px;}
+.header-title{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px;line-height:1;}
+.header-sub{font-family:'DM Mono',monospace;font-size:10px;color:var(--gold);letter-spacing:3px;margin-top:2px;}
+.nav-btn{background:none;border:1px solid var(--border);color:var(--muted);padding:7px 14px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;text-decoration:none;transition:all .2s;}
+.nav-btn:hover{border-color:var(--gold);color:var(--gold);}
+
+/* LAYOUT */
+.app-body{display:grid;grid-template-columns:1fr 360px;min-height:calc(100vh - 69px);}
+.calendar-panel{padding:20px;border-right:1px solid var(--border);overflow-y:auto;}
+.detail-panel{background:var(--dark);padding:20px;overflow-y:auto;position:sticky;top:69px;height:calc(100vh - 69px);}
+
+/* MATCH MANAGER */
+.match-manager{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:16px;}
+.mm-title{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+.mm-row{display:flex;gap:8px;margin-bottom:10px;}
+.mm-row input{flex:1;background:var(--dark);border:1px solid var(--border);color:var(--white);padding:7px 10px;border-radius:6px;font-family:'DM Mono',monospace;font-size:12px;}
+.mm-row input:focus{outline:none;border-color:var(--gold);}
+.btn{background:var(--card);border:1px solid var(--border);color:var(--white);padding:7px 13px;border-radius:6px;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;}
+.btn:hover{border-color:var(--gold);color:var(--gold);}
+.btn.primary{background:var(--gold);color:var(--black);border-color:var(--gold);font-weight:600;}
+.btn.primary:hover{background:var(--gold-dim);}
+.chips{display:flex;flex-wrap:wrap;gap:6px;}
+.chip{background:var(--dark);border:1px solid var(--matchday);border-radius:20px;padding:3px 10px;font-family:'DM Mono',monospace;font-size:10px;color:var(--matchday);display:flex;align-items:center;gap:6px;}
+.chip-x{cursor:pointer;opacity:.6;font-size:13px;transition:opacity .2s;}
+.chip-x:hover{opacity:1;}
+.chip.tournament{border-color:var(--block1);color:var(--block1);}
+
+/* LEGEND */
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;}
+.legend-item{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--muted);font-family:'DM Mono',monospace;}
+.ldot{width:9px;height:9px;border-radius:2px;flex-shrink:0;}
+
+/* CALENDAR */
+.panel-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.panel-title{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;color:var(--gold);}
+.month-block{margin-bottom:24px;}
+.month-label{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:3px;color:var(--muted);margin-bottom:8px;border-bottom:1px solid var(--border);padding-bottom:6px;}
+.week-row{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:3px;}
+.day-header{text-align:center;font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);padding:3px;letter-spacing:1px;}
+.day-cell{background:var(--card);border:1px solid var(--border);border-radius:5px;padding:5px;min-height:60px;cursor:pointer;transition:all .15s;position:relative;}
+.day-cell:hover:not(.empty):not(.type-rest){border-color:var(--gold);transform:translateY(-1px);}
+.day-cell.empty{background:transparent;border-color:transparent;cursor:default;}
+.day-cell.selected{border-color:var(--gold)!important;box-shadow:0 0 0 1px var(--gold);}
+.day-cell.today{border-color:rgba(240,240,240,.4);}
+.day-cell.type-rest{opacity:.35;cursor:default;}
+.day-num{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;color:var(--muted);line-height:1;}
+.day-bar{height:2px;border-radius:2px;margin:3px 0;}
+.day-label{font-size:8px;line-height:1.3;color:var(--muted);font-family:'DM Mono',monospace;}
+.day-md{font-size:8px;font-family:'DM Mono',monospace;margin-top:2px;opacity:.8;}
+
+/* DETAIL PANEL */
+.detail-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:10px;color:var(--muted);}
+.detail-empty-icon{font-size:40px;opacity:.3;}
+.detail-empty-text{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;}
+.d-date{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px;line-height:1;margin-bottom:3px;}
+.d-dow{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:3px;text-transform:uppercase;margin-bottom:12px;}
+.d-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:20px;font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:2px;margin-bottom:16px;border:1px solid;}
+.divider{border:none;border-top:1px solid var(--border);margin:14px 0;}
+.session-block{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:10px;}
+.sb-title{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.sb-num{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);margin-bottom:3px;}
+.sb-topic{font-size:14px;font-weight:500;color:var(--white);line-height:1.4;}
+.sb-keys{margin-top:6px;font-size:11px;color:var(--muted);line-height:1.6;}
+.pf-box{display:flex;align-items:center;gap:10px;padding:10px;border-radius:8px;margin-bottom:10px;border:1px solid;}
+.pf-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;opacity:.7;}
+.pf-value{font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:1px;}
+.pf-md{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:1px;margin-left:auto;}
+.md-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px;}
+.md-item{background:var(--card);border:1px solid var(--border);border-radius:7px;padding:9px;}
+.md-item-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
+.md-item-value{font-size:12px;font-weight:500;color:var(--white);}
+.md-item-value.none{color:var(--muted);font-style:italic;font-size:11px;}
+.prescription-title{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+
+/* FULL BRIEF BUTTON */
+.brief-btn{width:100%;background:linear-gradient(135deg,var(--gold),var(--gold-dim));color:var(--black);border:none;padding:12px;border-radius:8px;font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:3px;cursor:pointer;margin-top:6px;transition:opacity .2s;}
+.brief-btn:hover{opacity:.85;}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:1000;display:none;align-items:flex-start;justify-content:center;padding:20px;overflow-y:auto;}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--dark);border:1px solid var(--border);border-radius:14px;width:100%;max-width:720px;overflow:hidden;margin:auto;}
+.modal-header{background:var(--card);padding:20px 24px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;gap:16px;}
+.modal-title{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;color:var(--white);line-height:1.2;}
+.modal-sub{font-family:'DM Mono',monospace;font-size:10px;color:var(--gold);letter-spacing:2px;margin-top:4px;}
+.modal-close{background:none;border:1px solid var(--border);color:var(--muted);width:32px;height:32px;border-radius:6px;cursor:pointer;font-size:16px;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.modal-close:hover{border-color:var(--white);color:var(--white);}
+.modal-body{padding:24px;}
+
+/* MODAL SECTIONS */
+.ms{margin-bottom:20px;}
+.ms-title{font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:3px;color:var(--gold);border-bottom:1px solid var(--border);padding-bottom:6px;margin-bottom:12px;}
+.ms-row{display:flex;justify-content:space-between;align-items:baseline;padding:6px 0;border-bottom:1px solid rgba(37,42,53,.7);}
+.ms-row:last-child{border-bottom:none;}
+.ms-label{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;}
+.ms-value{font-size:13px;font-weight:500;color:var(--white);text-align:right;max-width:65%;}
+.ms-value.none{color:var(--muted);font-style:italic;}
+.ms-note{font-size:12px;color:var(--muted);line-height:1.7;padding:10px;background:var(--card);border-radius:7px;border-left:3px solid var(--gold);}
+.ms-tag{display:inline-block;padding:3px 10px;border-radius:20px;font-family:'DM Mono',monospace;font-size:10px;border:1px solid;margin:3px 3px 3px 0;}
+.psych-box{background:linear-gradient(135deg,rgba(124,58,237,.15),rgba(139,92,246,.05));border:1px solid rgba(124,58,237,.4);border-radius:8px;padding:12px;}
+.psych-title{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:2px;color:#a78bfa;margin-bottom:6px;}
+.psych-body{font-size:12px;color:var(--muted);line-height:1.7;}
+.bate-box{background:rgba(245,166,35,.05);border:1px solid rgba(245,166,35,.3);border-radius:8px;padding:12px;margin-top:10px;}
+.bate-title{font-family:'Bebas Neue',sans-serif;font-size:12px;letter-spacing:2px;color:var(--gold);margin-bottom:6px;}
+.bate-body{font-size:11px;color:var(--muted);line-height:1.8;}
+.bate-point{display:flex;gap:8px;margin-bottom:4px;}
+.bate-point::before{content:"›";color:var(--gold);flex-shrink:0;}
+.scan-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.3);border-radius:6px;padding:6px 10px;font-size:11px;color:#6ee7b7;font-style:italic;margin-top:8px;}
+
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+
+@media(max-width:900px){.app-body{grid-template-columns:1fr;}.detail-panel{position:static;height:auto;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <div class="logo-mark">ST</div>
+    <div>
+      <div class="header-title">Stivers Men&#39;s Varsity Soccer</div>
+      <div class="header-sub">Tactical Periodization — 2026 Season</div>
+    </div>
+  </div>
+  <a href="https://trozier.github.io/stivers-soccer" class="nav-btn">← Field Guide</a>
+</header>
+
+<div class="app-body">
+<div class="calendar-panel">
+  <div class="panel-header">
+    <div class="panel-title">Season Calendar</div>
+    <button class="btn" onclick="scrollToToday()">Today</button>
+  </div>
+
+  <div class="match-manager">
+    <div class="mm-title">⚽ Match Days</div>
+    <div class="mm-row">
+      <input type="date" id="mdDate"/>
+      <input type="text" id="mdOpp" placeholder="Opponent (optional)"/>
+      <button class="btn primary" onclick="addMatch()">Add</button>
+    </div>
+    <div class="chips" id="matchChips"></div>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><div class="ldot" style="background:var(--summer)"></div>Summer</div>
+    <div class="legend-item"><div class="ldot" style="background:var(--staffled)"></div>Staff-Led</div>
+    <div class="legend-item"><div class="ldot" style="background:var(--block1)"></div>Block 1</div>
+    <div class="legend-item"><div class="ldot" style="background:var(--block2)"></div>Block 2</div>
+    <div class="legend-item"><div class="ldot" style="background:var(--block3)"></div>Block 3</div>
+    <div class="legend-item"><div class="ldot" style="background:var(--b4)"></div>Block 4</div>
+    <div class="legend-item"><div class="ldot" style="background:var(--matchday)"></div>Match</div>
+    <div class="legend-item"><div class="ldot" style="background:var(--recovery)"></div>MD-5 Recovery</div>
+    <div class="legend-item"><div class="ldot" style="background:var(--resistance)"></div>MD-4 Resistance</div>
+    <div class="legend-item"><div class="ldot" style="background:var(--speed)"></div>MD-3 Speed End.</div>
+    <div class="legend-item"><div class="ldot" style="background:var(--reaction)"></div>MD-2 Reaction</div>
+    <div class="legend-item"><div class="ldot" style="background:var(--activation)"></div>MD-1 Activation</div>
+  </div>
+
+  <div id="calendarGrid"></div>
+</div>
+
+<div class="detail-panel" id="detailPanel">
+  <div class="detail-empty">
+    <div class="detail-empty-icon">📋</div>
+    <div class="detail-empty-text">Select a day</div>
+  </div>
+</div>
+</div>
+
+<!-- FULL SESSION BRIEF MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+  <div class="modal" id="modalContent">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title" id="modalTitle">Session Brief</div>
+        <div class="modal-sub" id="modalSub"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+// =====================================================================
+// CURRICULUM DATABASE
+// =====================================================================
+const CURRICULUM = {
+  summer: [
+    {num:'S1', topic:'Ball Mastery + CoD 1v1 — Super 6', keys:'Step Over, Scissors, Matthews, V-Move. Change of direction 1v1 format. Station rotation.', psych:'Set expectations. Show up ready.', scan:'N/A — ball mastery focus.'},
+    {num:'S2', topic:'Ball Mastery + Twist & Turn 1v1 — Super 6', keys:'Cruyff Turn, Drag-Back, Inside/Outside Hook, Roll Over. 20×20 grid, two goals, cross-field pass starts play.', psych:'Commitment to the work.', scan:'N/A — technical focus.'},
+    {num:'S3', topic:'Ball Mastery + Reversed Mini Goals — Super 6', keys:'Cut Circle, Drag Circle, V-Move, Maradona, Dribble Cut w/ Conti.', psych:'Competitive standard introduced.', scan:'N/A.'},
+    {num:'S4', topic:'Ball Mastery + Back to Goal 1v1 — Super 6', keys:'Cruyff, Spin Turn, Drag-Back, Roll Over, Puskas Take. Receiving under pressure.', psych:'Effort standard.', scan:'N/A — technical.'},
+    {num:'S5', topic:'Ball Mastery + Fast Reactions Relay — Super 6', keys:'Step Over, Roll Over–Step Over, Matthews, Scissors, Cuts at game speed + immediate acceleration.', psych:'Composure under pressure.', scan:'N/A.'},
+    {num:'S6', topic:'Ball Mastery + 1v1v1v1 — Super 6', keys:'Player&#39;s two owned moves in free 1v1 format.', psych:'Player ownership — own your moves.', scan:'N/A.'},
+    {num:'S7', topic:'Super 6 Player Choice Day', keys:'Players vote on favorite drill from S1–S6. Run it. Celebrate ownership.', psych:'Player voice matters.', scan:'N/A.'},
+    {num:'S8', topic:'2v1 Introduction — Wall Pass Foundation', keys:'Peters/Schumacher Two Versus One. The wall pass — timing, angle, movement off the ball.', psych:'Trust your teammate.', scan:'See the wall pass option before the ball arrives.'},
+    {num:'S9', topic:'2v1 — Overlap Run', keys:'Overlap timing, communication, defender reading. Peters/Schumacher progression.', psych:'Unselfishness creates goals.', scan:'Scan to see overlap space before initiating.'},
+    {num:'S10', topic:'2v1 — Choice (Wall Pass vs Overlap)', keys:'Decision-making: read the defender, choose the correct option. No predetermined choice.', psych:'Decision-making under pressure.', scan:'Pre-scan to read defender position.'},
+    {num:'S11', topic:'2v1 — Combination Finishing', keys:'Wall pass or overlap into finishing. Combination finish station elevated.', psych:'Finishing with conviction.', scan:'Scan the goal before receiving the final pass.'},
+    {num:'S12', topic:'2v1 Review + Open Small-Sided Game', keys:'Review all four 2v1 options. Free play to apply in game context.', psych:'Apply what you own.', scan:'Game-context scanning — live reps.'},
+  ],
+  block1: [
+    {num:'B1-S1', week:'Week 1', topic:'Game Model — In Possession 4-4-2', keys:'Shape and spacing of all 10 outfield players. Build from back — GK as 11th player. Two forward relationship — one holds, one runs in behind.', psych:'Introduce the 5 C\'s: Connect, Commit, Create, Counter, Control.', scan:'Introduce scanning standard from Day 1. Freeze play. Ask: "What did you see before it arrived?"', bate:null},
+    {num:'B1-S2', week:'Week 1', topic:'Game Model — In Possession 4-4-2 (continued)', keys:'Reinforce shape. Switching play. Wide mid roles in possession. GK distribution decisions.', psych:'5 C\'s reinforced.', scan:'Freeze play. Ask the question every rep.', bate:null},
+    {num:'B1-S3', week:'Week 1', topic:'Game Model — A to D Transition 4-4-2', keys:'First presser reacts immediately on loss. Midfield tucks to protect central space. Back four holds shape — does not chase. No ball-watching.', psych:'Introducing Commitment.', scan:'Scan before receiving — decision made before ball arrives.', bate:'WHEN does defending commence? The moment possession is lost. Bate: "will to defend" is mental before physical. 4-4-2 roles: Forwards = first press line. Wide MFs = tuck, deny wide. Central MFs = protect central space. Back four = hold shape. 6 A\'s sequence: Anticipate, Accelerate, Approach, Arrival, Awareness, Action, After.'},
+    {num:'B1-S4', week:'Week 1', topic:'Aerial Receiving — Low Pressure (Brennan + Micah J)', keys:'High volume, no pressure reps. Build coordination and aerial confidence at wide mid. CF cover skill development.', psych:'Commitment to individual development.', scan:'No scanning focus this session — pure technique.', bate:null},
+    {num:'B1-S5', week:'Week 1', topic:'Game Model — Out of Possession 4-4-2', keys:'Two compact banks of four. Press triggers led by Oliver. Mid-block shape. Make the pitch small. Hard to play through.', psych:'Commitment continued.', scan:'Scan to read press — when to press vs when to drop.', bate:null},
+    {num:'B1-S6', week:'Week 1', topic:'Game Model — Out of Possession 4-4-2 (continued)', keys:'Refine compactness. Distances between the two banks. Press trigger recognition. Collective, not individual.', psych:'Commitment: zero tolerance for half-effort defending.', scan:'Read the opposition body shape — are they under pressure?', bate:null},
+    {num:'B1-S7', week:'Week 2', topic:'Game Model — D to A Transition 4-4-2', keys:'Three counter-attack options: one long pass, several short passes, or run with the ball. Recognize the counter moment before it fully develops.', psych:'Effort + Team Cohesion.', scan:'Scan to see if counter is available BEFORE the ball is won.', bate:null},
+    {num:'B1-S8', week:'Week 2', topic:'Game Model — D to A Transition (continued)', keys:'Decision speed on counter. When counter is not on — retain and build. Wide mids as counter outlet.', psych:'Effort standard.', scan:'Central MF scans before receiving to identify counter option.', bate:null},
+    {num:'B1-S9', week:'Week 2', topic:'A to D — Reacting Quickly to Losing the Ball', keys:'Recognizing transition before it happens. Pressing skills. Recovery runs. 5–10 second burst principle — then recover shape.', psych:'Build togetherness.', scan:'Read opponent body shape to anticipate turnover.', bate:'WHEN: Faulty first touch, ball played backwards, ball to weak technical player. The press is 5–10 second burst ONLY. First defender (Oliver): read, anticipate, time the press. Always press with something in mind: Deny, Deflect, Protect, Prevent. Random press by 1–2 is WORSE than no press.'},
+    {num:'B1-S10', week:'Week 2', topic:'Aerial Receiving — Passive Pressure (Brennan + Micah J)', keys:'Defender present but not fully active. Receive, control, play out. Progression from S4.', psych:'Individual development accountability.', scan:'Check shoulder before ball arrives — know where pressure is.', bate:null},
+    {num:'B1-S11', week:'Week 2', topic:'Playing Out From the Back Under Press', keys:'GK distribution, CB decision-making. When to play short vs go long. Central MF availability as passing option.', psych:'Composure under pressure.', scan:'Central MF must scan before checking in to receive. Decision already made.', bate:null},
+    {num:'B1-S12', week:'Week 2', topic:'Playing Out From the Back (continued)', keys:'Refine. Add defensive pressure. Direct option when appropriate. Communication between GK and defenders.', psych:'Composure.', scan:'Every CB and MF touch must be preceded by a scan.', bate:null},
+    {num:'B1-S13', week:'Week 3', topic:'Full 4-4-2 Shape — All Four Phases Connected', keys:'Run full game scenarios. All four phases flow naturally into each other. Fix shape and communication in transition.', psych:'Confidence + Composure pre-tournament.', scan:'Hold the standard. Freeze and correct where needed.', bate:null},
+    {num:'B1-S14', week:'Week 3', topic:'Full Shape Connected (continued) + Tournament Scenarios', keys:'Manage game scenarios. Set pieces defensive and attacking. Roles and responsibilities reviewed.', psych:'Managing nerves.', scan:'Reinforce across all set piece prep.', bate:null},
+    {num:'B1-S15', week:'Week 3', topic:'A to D — Recovering into Shape Once Ball is Lost', keys:'When you cannot press immediately — recovery to 4-4-2 IS the defensive action. Once in shape, press becomes available again. Shape first, then press trigger.', psych:'Belief. The shape is the plan.', scan:'Scan to see if immediate press is available or recovery needed.', bate:'HOW: Press must be tactically planned. When not immediately available, recovery into shape IS the defensive action. Short periods of intense pressing followed by deeper defending. Compactness of the two banks of four during recovery — they compress together as a unit.'},
+    {num:'B1-S16', week:'Week 3', topic:'Tournament Preparation — Set Pieces + Scenarios', keys:'Defensive and attacking set pieces. Dead balls. Game management scenarios — leading, drawing, behind.', psych:'Confidence. Trust the work.', scan:'N/A — set piece focus.', bate:null},
+    {num:'B1-S17', week:'Week 3', topic:'Final Pre-Tournament Session', keys:'Short, sharp, high intensity. Run best training forms. End on a high.', psych:'Composure. Believe in the system.', scan:'Hold the standard — no coaching unless critical.', bate:null},
+  ],
+  block2: [
+    {num:'B2-Ep1', week:'Week 4', topic:'Planning Funnel — From Tournament Film', keys:'Walk Game → Analysis → Phase → Element → Scene → Training Form. Address the most critical scene from July 24–25.', psych:'Effort + Eagerness.', scan:'Apply scanning emphasis to whatever scene is being addressed.', bate:'Bate triggers reviewed from tournament film. 6 A\'s sequence applied to breakdown scenes. Assistants: pick ONE pressing principle per freeze.'},
+    {num:'B2-S1', week:'Week 4', topic:'A to D — Reacting Quickly + Press Triggers', keys:'Recognizing transition. When to press vs recover. First defender sets the trigger. 35-yard zone: always press when ball is in opponent\'s defensive third.', psych:'Eagerness to Engage.', scan:'Read ball carrier body shape to anticipate loss.', bate:'Tactical triggers: (1) Faulty first touch. (2) Back pass to GK. (3) Ball to weak technical player. (4) Ball across the field — read pace and distance. State of game trigger: if losing late, press is permanent.'},
+    {num:'B2-S2', week:'Week 4', topic:'A to D — Press Triggers (continued)', keys:'Reinforce trigger recognition. Collective press vs individual press. Oliver leads — team follows.', psych:'Eagerness continued.', scan:'Pre-scan to read ball carrier intent before trigger fires.', bate:null},
+    {num:'B2-S3', week:'Week 4', topic:'Switching the Point of Attack — In Possession', keys:'Build one side, switch play, finish from the other side. Wide mids\' role as receivers of the switch.', psych:'Team cohesion.', scan:'Scan across the field before receiving — see the switch option early.', bate:null},
+    {num:'B2-S4', week:'Week 4', topic:'Switching Point of Attack (continued)', keys:'Increase tempo. Direct play option when switch is not on. Wide mids deliver cross after switch.', psych:'Composure — regular season approaching.', scan:'CB must scan before playing the switch pass.', bate:null},
+    {num:'B2-S5', week:'Week 5', topic:'Defending Compactly as a Team', keys:'Making the pitch small. Making play predictable. Preventing forward passes through the midfield. 4-4-2 mid-block.', psych:'Team Cohesion + Composure.', scan:'Scanning out of possession — read the attack before it develops.', bate:null},
+    {num:'B2-S6', week:'Week 5', topic:'Compact Defending (continued)', keys:'Distances between the two banks. Prevent penetration through central channel. Invite wide play, then compress.', psych:'Composure.', scan:'Wide MF scanning: know where ball is before it arrives.', bate:null},
+    {num:'B2-S7', week:'Week 5', topic:'A to D — Wide Midfielder Recovery Runs', keys:'Wide MFs tuck in immediately on loss of possession. Deny wide options. Cover the channel between wide MF and fullback.', psych:'Unselfishness — recovery is commitment.', scan:'Wide MF must know where ball is before receiving so recovery angle is right.', bate:'WHAT: Denial of space (tuck in, remove wide option), Denial of movement (track wide runner). Role CHANGE on loss, not just a run. Channel between wide MF and fullback is highest priority area. Monitor press intensity in August heat.'},
+    {num:'B2-S8', week:'Week 5', topic:'Creating Scoring Opportunities in Final Third', keys:'Quick combination play around the box. Penetrative passes in behind. Flair elements encouraged here.', psych:'Composure + Spring in the Step.', scan:'Central channel scanning — decision before the ball arrives. Root cause session.', bate:null},
+    {num:'B2-Ep2', week:'Week 5', topic:'Planning Funnel — From Last Match', keys:'Game → Analysis → Phase → Element → Scene → Training Form. Address the specific scene from most recent game.', psych:'Review and respond.', scan:'Apply to specific scene.', bate:null},
+    {num:'B2-S9', week:'Week 6', topic:'When to Press / When to Drop', keys:'Opposition in good possession — drop. Poor possession — press. Team takes trigger from first defender. This is collective, not individual.', psych:'Composure + Spring.', scan:'Scan to read opposition possession quality before deciding.', bate:'HOW — organised, prepared team. Recovery shape decisions begin to account for opponent style. Direct teams = faster recovery. Possession teams = hold shape longer.'},
+    {num:'B2-S10', week:'Week 6', topic:'A to D — Recovering into Shape (Revisit)', keys:'Revisit from Block 1. Now with live game pressure. Press is a burst — after burst, recover shape. Players must know the automaticity.', psych:'Trust the system.', scan:'Scan to determine press availability vs shape recovery.', bate:'Press is 5–10 second burst. After burst, if ball not won, recover shape. Organised press: the decision to recover is tactical, not a loss of will.'},
+    {num:'B2-S11', week:'Week 6', topic:'Playing Out From the Back — Under Live Pressure', keys:'GK, CBs, central MF. Live defenders now. Direct option explicitly introduced. Progression from Block 1.', psych:'Composure under pressure — regular season running.', scan:'Every CB and MF touch preceded by scan. Decision already made.', bate:null},
+    {num:'B2-Ep3', week:'Week 6', topic:'Planning Funnel — From Last Match', keys:'Game → Analysis → Phase → Element → Scene → Training Form.', psych:'Respond to live data.', scan:'Apply to specific scene.', bate:null},
+  ],
+  block3: [
+    {num:'B3-IDP', week:'Week 9', topic:'IDP Formal Review — Block 1 & 2', keys:'Individual Development Plan review. Oliver: CF standards + leadership. Brennan: aerial receiving at wide mid. Micah J: consistency, readiness. Full squad: is scanning a habit now?', psych:'Eagerness to Engage + Switching On.', scan:'IDP question: Is scanning a habit or still being consciously coached?', bate:null},
+    {num:'B3-S1', week:'Week 9', topic:'Defending When Outnumbered / Disorganized', keys:'Delay, Deny, Dictate. Defend the goal however necessary. Recovery runs from out-of-position players. No panic.', psych:'Switching On.', scan:'Scan while out of position to find recovery angle and nearest danger.', bate:null},
+    {num:'B3-S2', week:'Week 9', topic:'Defending When Outnumbered (continued)', keys:'Emergency defending — blocks, tackles. Body position between ball and goal. If in position to win it — win it.', psych:'Belief in self.', scan:'Scan to identify highest priority defensive action.', bate:null},
+    {num:'B3-S3', week:'Week 9', topic:'A to D — Decision: Press Immediately vs Recover', keys:'Is the press available? Count numbers. If yes — press. If no — recover and shape up. Decision-making version — not just reaction.', psych:'Decision-making under pressure.', scan:'Scan before losing the ball to pre-read the press decision.', bate:'Players are not reacting — they are anticipating. 6 A\'s applied here. Assess which A is breaking down per player: Anticipate (not reading trigger)? Accelerate (slow start)? Approach (wrong angle)? Use as IDP data. Distances between the two banks — compactness.'},
+    {num:'B3-Ep4', week:'Week 9', topic:'Planning Funnel — From Last Match', keys:'Game → Analysis → Phase → Element → Scene → Training Form.', psych:'Respond to live data.', scan:'Apply to specific scene.', bate:null},
+    {num:'B3-S4', week:'Week 10', topic:'Transition to Attack — Counter vs Retain', keys:'Is the counter available? One long pass, several short, or run with ball. If counter not on — retain and build patiently.', psych:'Composure.', scan:'Scan to see counter option BEFORE ball is won.', bate:null},
+    {num:'B3-S5', week:'Week 10', topic:'Transition to Attack (continued)', keys:'Speed of decision on counter. Communication — who goes long? Who retains? Clarity of roles.', psych:'Clarity and conviction.', scan:'Wide mids scan for counter outlet before defensive phase ends.', bate:null},
+    {num:'B3-Ep5', week:'Week 10', topic:'Planning Funnel — From Last Match', keys:'Game → Analysis → Phase → Element → Scene → Training Form.', psych:'Respond to live data.', scan:'Apply to specific scene.', bate:null},
+    {num:'B3-S6', week:'Week 11', topic:'Critical Defending — In and Around the Box', keys:'Body position between ball and goal. Emergency blocks and tackles. GK saves. If in position to win it — win it.', psych:'Belief under pressure.', scan:'Scan in and around box to identify highest danger.', bate:null},
+    {num:'B3-S7', week:'Week 11', topic:'Defending Deep in Low Block — Counter Attack', keys:'Defend compactly and deep. Opponent should struggle to penetrate defensive line. Once regained — can we spring counter?', psych:'Switching On.', scan:'Scan deep defensive shape — read attack before it reaches final third.', bate:null},
+    {num:'B3-Ep6', week:'Week 11', topic:'Planning Funnel — From Last Match', keys:'Game → Analysis → Phase → Element → Scene → Training Form.', psych:'Respond to live data.', scan:'Apply to specific scene.', bate:null},
+  ],
+  block4: [
+    {num:'B4-S1', week:'Tournament Week', topic:'Overall Style — In Possession Review', keys:'Best possession training form from the season. High tempo. Confident. Players lead the reps.', psych:'Belief. Trust the system.', scan:'Scanning at its highest standard. No coaching unless critical.', bate:null},
+    {num:'B4-S2', week:'Tournament Week', topic:'A to D — Sharpening', keys:'Best A to D training form from the season. Fast, organized, automatic. No new information.', psych:'Sharpness. Trust.', scan:'A to D and scanning are connected. Trust the habit.', bate:'No new concepts. Run the best A to D form from the season. Bate: "State of the game" trigger — in tournament football, urgency increases. Press standard does not drop — it rises.'},
+    {num:'B4-Ep1', week:'Tournament Week', topic:'Episodic — Psychological', keys:'Body language. Belief. Tournament mindset. Read the room. Whatever the team needs.', psych:'Tournament mindset. This is what we built for.', scan:'N/A.', bate:null},
+    {num:'B4-S3', week:'Tournament Week', topic:'Overall Style — Out of Possession Review', keys:'Best defensive shape training form. Compact. Organized. Hard to play through.', psych:'Trust the defensive work.', scan:'Scanning out of possession at peak level.', bate:null},
+    {num:'B4-S4', week:'Tournament Week', topic:'Overall Style — Transitions Review', keys:'A to D and D to A at game speed. Connected. Automatic. No coaching needed.', psych:'Automatic execution.', scan:'No intervention needed. Trust it.', bate:null},
+    {num:'B4-Ep2', week:'Tournament Week', topic:'Final Session — Psychological', keys:'Short. Sharp. Belief-building. Leave them feeling ready.', psych:'Final message: trust what was built. Belief is the standard.', scan:'N/A.', bate:null},
+  ]
+};
+
+// MD LOOKUP
+const MD_TABLE = {
+  '-5':{physical:'RECOVERY',warmup:'Recovery',technical:null,conditioning:null,possession:null,game:null},
+  '-4':{physical:'RESISTANCE',warmup:'Resistance',technical:'Intensive',conditioning:'Resistance',possession:'Small Sided',game:'Small Sided'},
+  '-3':{physical:'SPEED ENDURANCE',warmup:'Speed Endurance',technical:'Extensive',conditioning:'Speed Endurance',possession:'Large Sided',game:'Large Sided'},
+  '-2':{physical:'REACTION SPEED',warmup:'Reaction Speed',technical:null,conditioning:'Reaction Speed',possession:'Medium Sided',game:'Medium Sided'},
+  '-1':{physical:'ACTIVATION',warmup:'Reaction Speed',technical:'Intensive',conditioning:'Reaction Speed',possession:null,game:'Small/Med Area'},
+  '0':{physical:'MATCH DAY',warmup:null,technical:null,conditioning:null,possession:null,game:null},
+  '1':{physical:'COMPENSATORY',warmup:null,technical:null,conditioning:null,possession:null,game:null},
+};
+const MD_COLORS={
+  'RECOVERY':'var(--recovery)','RESISTANCE':'var(--resistance)','SPEED ENDURANCE':'var(--speed)',
+  'REACTION SPEED':'var(--reaction)','ACTIVATION':'var(--activation)',
+  'MATCH DAY':'var(--matchday)','COMPENSATORY':'var(--compensatory)'
+};
+const PHASE_COLORS={
+  summer:'var(--summer)',staffled:'var(--staffled)',block1:'var(--block1)',
+  block2:'var(--block2)',block3:'var(--block3)',block4:'var(--b4)',
+  tournament:'var(--matchday)',matchday:'var(--matchday)',rest:'var(--border)'
+};
+
+// STATE
+let matchDays={'2026-08-24':'TBD','2026-08-25':'TBD','2026-09-30':'TBD','2026-10-06':'TBD','2026-10-10':'TBD'};
+const TOURNAMENT={'2026-07-24':'Pre-Season Tournament','2026-07-25':'Pre-Season Tournament'};
+let selectedDate=null, sessionCounters={}, currentBriefData=null;
+
+// DATE HELPERS
+function ds(d){return d.toISOString().split('T')[0];}
+function pd(s){const[y,m,d]=s.split('-').map(Number);return new Date(y,m-1,d);}
+function isSun(d){return d.getDay()===0;}
+
+function getPhase(d){
+  const s=ds(d), dt=new Date(d.getFullYear(),d.getMonth(),d.getDate());
+  if(isSun(d))return'rest';
+  if(matchDays[s]!==undefined)return'matchday';
+  if(TOURNAMENT[s])return'tournament';
+  // Vacation July 3–10 = staff-led
+  if(dt>=pd('2026-07-03')&&dt<=pd('2026-07-10'))return'staffled';
+  // Summer: June 8 – July 12
+  if(dt>=pd('2026-06-08')&&dt<=pd('2026-07-12'))return'summer';
+  // Block 1: July 13 – July 23
+  if(dt>=pd('2026-07-13')&&dt<=pd('2026-07-23'))return'block1';
+  // Block 2: July 28 – Sept 1
+  if(dt>=pd('2026-07-28')&&dt<=pd('2026-09-01'))return'block2';
+  // Block 3: Sept 2 – Oct 5
+  if(dt>=pd('2026-09-02')&&dt<=pd('2026-10-05'))return'block3';
+  // Block 4: Oct 6–12
+  if(dt>=pd('2026-10-06')&&dt<=pd('2026-10-12'))return'block4';
+  if(dt>pd('2026-10-12'))return'tournament';
+  return'summer';
+}
+
+function isSaturdayTraining(d){
+  if(d.getDay()!==6)return false;
+  // Check if Monday of next week is a match day
+  const nextMon=new Date(d);nextMon.setDate(d.getDate()+2);
+  return matchDays[ds(nextMon)]!==undefined;
+}
+
+function isTraining(d){
+  const s=ds(d), phase=getPhase(d);
+  if(isSun(d))return false;
+  if(matchDays[s]!==undefined||TOURNAMENT[s])return false;
+  if(phase==='rest')return false;
+  if(d.getDay()===6&&!isSaturdayTraining(d))return false;
+  if(phase==='staffled')return true;
+  return true;
+}
+
+function getMD(d){
+  const s=ds(d);
+  if(matchDays[s]!==undefined||TOURNAMENT[s])return'0';
+  const all=[...Object.keys(matchDays),...Object.keys(TOURNAMENT)];
+  let min=Infinity;
+  for(const ms of all){
+    const diff=Math.round((pd(ms)-d)/86400000);
+    if(diff>0&&diff<min)min=diff;
+  }
+  if(min===Infinity)return null;
+  const md=-min;
+  if(md>=-5&&md<=1)return String(md);
+  return null;
+}
+
+function computeSessions(){
+  sessionCounters={};
+  let sc=0,b1=0,b2=0,b3=0,b4=0;
+  let cur=new Date(2026,5,8);
+  const end=new Date(2026,9,18);
+  while(cur<=end){
+    const s=ds(cur),ph=getPhase(cur);
+    if(isTraining(cur)){
+      if(ph==='summer'){sc++;sessionCounters[s]={block:'summer',num:sc};}
+      else if(ph==='block1'){b1++;sessionCounters[s]={block:'block1',num:b1};}
+      else if(ph==='block2'){b2++;sessionCounters[s]={block:'block2',num:b2};}
+      else if(ph==='block3'){b3++;sessionCounters[s]={block:'block3',num:b3};}
+      else if(ph==='block4'){b4++;sessionCounters[s]={block:'block4',num:b4};}
+    }
+    cur.setDate(cur.getDate()+1);
+  }
+}
+
+function getCurrSession(sc){
+  if(!sc)return null;
+  const idx=sc.num-1;
+  const map={summer:CURRICULUM.summer,block1:CURRICULUM.block1,block2:CURRICULUM.block2,block3:CURRICULUM.block3,block4:CURRICULUM.block4};
+  const arr=map[sc.block];
+  if(!arr)return null;
+  return arr[Math.min(idx,arr.length-1)];
+}
+
+// =====================================================================
+// RENDER CALENDAR
+// =====================================================================
+function renderCalendar(){
+  computeSessions();
+  const grid=document.getElementById('calendarGrid');
+  grid.innerHTML='';
+  const today=ds(new Date());
+  const DOW=['SUN','MON','TUE','WED','THU','FRI','SAT'];
+  for(let mo=5;mo<=9;mo++){
+    const mDiv=document.createElement('div');mDiv.className='month-block';
+    const mDate=new Date(2026,mo,1);
+    const mLabel=document.createElement('div');mLabel.className='month-label';
+    mLabel.textContent=mDate.toLocaleString('default',{month:'long',year:'numeric'}).toUpperCase();
+    mDiv.appendChild(mLabel);
+    const hRow=document.createElement('div');hRow.className='week-row';
+    DOW.forEach(d=>{const h=document.createElement('div');h.className='day-header';h.textContent=d;hRow.appendChild(h);});
+    mDiv.appendChild(hRow);
+    const firstDow=new Date(2026,mo,1).getDay();
+    const lastDay=new Date(2026,mo+1,0).getDate();
+    let wRow=document.createElement('div');wRow.className='week-row';
+    for(let i=0;i<firstDow;i++){const e=document.createElement('div');e.className='day-cell empty';wRow.appendChild(e);}
+    let col=firstDow;
+    for(let day=1;day<=lastDay;day++){
+      const d=new Date(2026,mo,day);const s=ds(d);
+      const phase=getPhase(d);const mdT=getMD(d);const mdInfo=mdT?MD_TABLE[mdT]:null;
+      const sc2=sessionCounters[s];const isTrain=isTraining(d);
+      let barColor=PHASE_COLORS[phase]||'var(--border)';
+      if(mdT&&mdInfo&&MD_COLORS[mdInfo.physical])barColor=MD_COLORS[mdInfo.physical];
+      const cell=document.createElement('div');
+      cell.className=`day-cell${phase==='rest'?' type-rest':''}${s===today?' today':''}${s===selectedDate?' selected':''}`;
+      cell.dataset.date=s;
+      if(phase!=='rest')cell.onclick=()=>selectDay(s);
+      const num=document.createElement('div');num.className='day-num';num.style.color=phase==='rest'?'var(--muted)':barColor;num.textContent=day;cell.appendChild(num);
+      const bar=document.createElement('div');bar.className='day-bar';bar.style.background=barColor;cell.appendChild(bar);
+      const lbl=document.createElement('div');lbl.className='day-label';
+      if(TOURNAMENT[s]){lbl.textContent='TOURNAMENT';lbl.style.color='var(--matchday)';}
+      else if(matchDays[s]!==undefined){lbl.textContent=matchDays[s]||'MATCH';lbl.style.color='var(--matchday)';}
+      else if(phase==='staffled'){lbl.textContent='STAFF-LED';lbl.style.color='var(--staffled)';}
+      else if(phase==='rest'||isSun(d)){lbl.textContent='REST';}
+      else if(d.getDay()===6&&!isSaturdayTraining(d)){lbl.textContent='REST';lbl.style.color='var(--muted)';}
+      else if(sc2){
+        const labels={summer:`S${sc2.num}`,block1:`B1·S${sc2.num}`,block2:`B2·S${sc2.num}`,block3:`B3·S${sc2.num}`,block4:`B4·S${sc2.num}`};
+        lbl.textContent=labels[sc2.block]||'';lbl.style.color=barColor;
+      }
+      cell.appendChild(lbl);
+      if(mdT&&mdT!=='0'&&mdT!=='1'){const md=document.createElement('div');md.className='day-md';md.style.color=barColor;md.textContent=`MD${mdT}`;cell.appendChild(md);}
+      wRow.appendChild(cell);col++;
+      if(col===7){mDiv.appendChild(wRow);wRow=document.createElement('div');wRow.className='week-row';col=0;}
+    }
+    while(col>0&&col<7){const e=document.createElement('div');e.className='day-cell empty';wRow.appendChild(e);col++;}
+    if(col>0)mDiv.appendChild(wRow);
+    grid.appendChild(mDiv);
+  }
+  renderChips();
+}
+
+// =====================================================================
+// DETAIL PANEL
+// =====================================================================
+function selectDay(s){
+  selectedDate=s;
+  document.querySelectorAll('.day-cell').forEach(c=>c.classList.remove('selected'));
+  const cell=document.querySelector(`[data-date="${s}"]`);
+  if(cell)cell.classList.add('selected');
+  const d=pd(s);
+  const phase=getPhase(d);const mdT=getMD(d);const mdInfo=mdT?MD_TABLE[mdT]:null;
+  const sc2=sessionCounters[s];const currS=getCurrSession(sc2);
+  const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const DAYS=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const pfColor=mdInfo?(MD_COLORS[mdInfo.physical]||PHASE_COLORS[phase]):PHASE_COLORS[phase];
+  const phaseLabels={summer:'SUMMER TRAINING',staffled:'STAFF-LED SESSION',block1:'BLOCK 1 — PRE-SEASON',block2:'BLOCK 2 — EARLY SEASON',block3:'BLOCK 3 — MID SEASON',block4:'BLOCK 4 — TOURNAMENT PREP',tournament:'MATCH DAY',matchday:'MATCH DAY',rest:'REST DAY'};
+  const isMatch=phase==='matchday'||phase==='tournament';const isRest=phase==='rest';
+
+  let html=`<div class="d-date">${MONTHS[d.getMonth()]} ${d.getDate()}, 2026</div>
+  <div class="d-dow">${DAYS[d.getDay()]}</div>
+  <div class="d-badge" style="color:${pfColor};border-color:${pfColor};background:${pfColor}18">
+    ${isMatch?'⚽':isRest?'😴':phase==='staffled'?'👥':'🏃'} ${phaseLabels[phase]||'TRAINING'}
+  </div><hr class="divider">`;
+
+  if(isMatch){
+    const opp=matchDays[s]||(TOURNAMENT[s]?TOURNAMENT[s]:'Opponent TBD');
+    html+=`<div class="session-block"><div class="sb-title">${TOURNAMENT[s]?'🏆 Pre-Season Tournament':'⚽ Match Day'}</div>
+    <div class="sb-topic">${opp}</div></div>`;
+    if(TOURNAMENT[s])html+=`<div class="session-block"><div class="sb-title">📋 Coach Notes</div><div class="sb-keys">First live game data. Activate Planning Funnel. Watch Oliver at CF, Brennan + Micah J aerially, A to D moments, central MF scanning.</div></div>`;
+  } else if(isRest||(d.getDay()===6&&!isSaturdayTraining(d)&&phase!=='staffled')){
+    html+=`<div class="session-block"><div class="sb-title">Rest Day</div><div class="sb-topic" style="color:var(--muted)">No training scheduled.</div></div>`;
+    if(d.getDay()===6&&!isSaturdayTraining(d)&&!isSun(d))html+=`<div class="sb-keys" style="color:var(--muted);font-size:11px;padding:8px 0">No Monday match next week — Saturday is rest. Coach discretion to add training if needed.</div>`;
+  } else if(phase==='staffled'){
+    html+=`<div class="session-block"><div class="sb-title">👥 Staff-Led Session</div>
+    <div class="sb-topic">Ball Mastery / Group Technical</div>
+    <div class="sb-keys">CK + Coach P leading. Draw from Liverpool, Leicester City, Arsenal session plan PDFs. Coach T on vacation.</div></div>`;
+  } else {
+    if(mdInfo&&mdT!=='0'&&mdT!=='1'){
+      html+=`<div class="pf-box" style="color:${pfColor};border-color:${pfColor};background:${pfColor}12">
+        <div><div class="pf-label">Physical Focus</div><div class="pf-value">${mdInfo.physical}</div></div>
+        <div class="pf-md" style="color:${pfColor}">MD${mdT}</div></div>`;
+    }
+    if(currS){
+      html+=`<div class="session-block"><div class="sb-title">📋 Curriculum Session</div>
+      <div class="sb-num">${currS.num}${currS.week?' — '+currS.week:''}</div>
+      <div class="sb-topic">${currS.topic}</div>
+      <div class="sb-keys">${currS.keys}</div></div>`;
+    }
+    if(mdInfo&&mdT!=='0'&&mdT!=='1'){
+      const items=[{l:'Warmup',v:mdInfo.warmup},{l:'Technical',v:mdInfo.technical},{l:'Conditioning',v:mdInfo.conditioning},{l:'Possession',v:mdInfo.possession},{l:'Game',v:mdInfo.game}];
+      html+=`<div class="prescription-title">Session Prescription</div><div class="md-grid">`;
+      items.forEach(i=>html+=`<div class="md-item"><div class="md-item-label">${i.l}</div><div class="md-item-value ${!i.v?'none':''}">${i.v||'N/A'}</div></div>`);
+      html+=`</div>`;
+    } else if(!mdInfo){
+      html+=`<div class="session-block" style="border-color:var(--border)"><div class="sb-title">Session Context</div>
+      <div class="sb-topic" style="color:var(--muted);font-size:13px">No match in range — MD framework not active. Focus on summer curriculum topics and physical development.</div></div>`;
+    }
+    if(currS){
+      // Store for modal
+      currentBriefData={date:s,dayStr:`${DAYS[d.getDay()]}, ${MONTHS[d.getMonth()]} ${d.getDate()}`,phase,mdT,mdInfo,currS,pfColor,sc:sc2};
+      html+=`<button class="brief-btn" onclick="openModal()">📄 Full Session Brief</button>`;
+    }
+  }
+  document.getElementById('detailPanel').innerHTML=html;
+}
+
+// =====================================================================
+// MODAL — FULL SESSION BRIEF
+// =====================================================================
+function openModal(){
+  if(!currentBriefData)return;
+  const{date,dayStr,phase,mdT,mdInfo,currS,pfColor,sc:sc2}=currentBriefData;
+  document.getElementById('modalTitle').textContent=currS.topic;
+  document.getElementById('modalSub').textContent=`${currS.num} — ${dayStr}`;
+  const phaseLabel={summer:'Summer Training',block1:'Block 1 — Pre-Season',block2:'Block 2 — Early Season',block3:'Block 3 — Mid Season',block4:'Block 4 — Tournament Prep'};
+  let body='';
+
+  // PHASE BANNER
+  body+=`<div style="background:${pfColor}18;border:1px solid ${pfColor}40;border-radius:8px;padding:10px 14px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between">
+    <div style="font-family:&#39;DM Mono&#39;,monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:${pfColor}">${phaseLabel[phase]||phase}</div>
+    ${mdT&&mdT!=='0'?`<div style="font-family:&#39;Bebas Neue&#39;,sans-serif;font-size:22px;color:${pfColor}">MD${mdT} — ${mdInfo.physical}</div>`:''}
+  </div>`;
+
+  // SESSION INFO
+  body+=`<div class="ms"><div class="ms-title">Session Overview</div>`;
+  if(currS.week)body+=`<div class="ms-row"><div class="ms-label">Week</div><div class="ms-value">${currS.week}</div></div>`;
+  body+=`<div class="ms-row"><div class="ms-label">Session</div><div class="ms-value">${currS.num}</div></div>`;
+  body+=`<div class="ms-row"><div class="ms-label">Topic</div><div class="ms-value">${currS.topic}</div></div>`;
+  body+=`</div>`;
+
+  // KEY POINTS
+  body+=`<div class="ms"><div class="ms-title">Key Coaching Points</div><div class="ms-note">${currS.keys}</div></div>`;
+
+  // MD PRESCRIPTION
+  if(mdInfo&&mdT!=='0'&&mdT!=='1'){
+    body+=`<div class="ms"><div class="ms-title">MD Prescription</div>`;
+    const items=[{l:'Warmup Type',v:mdInfo.warmup},{l:'Technical',v:mdInfo.technical},{l:'Conditioning',v:mdInfo.conditioning},{l:'Possession Game',v:mdInfo.possession},{l:'Game Format',v:mdInfo.game}];
+    items.forEach(i=>body+=`<div class="ms-row"><div class="ms-label">${i.l}</div><div class="ms-value ${!i.v?'none':''}">${i.v||'N/A'}</div></div>`);
+    body+=`</div>`;
+  }
+
+  // SCANNING NOTE
+  if(currS.scan&&currS.scan!=='N/A'&&currS.scan!=='N/A.'&&!currS.scan.startsWith('N/A')){
+    body+=`<div class="ms"><div class="ms-title">👁 Scanning Emphasis</div>
+    <div class="scan-badge">👁 ${currS.scan}</div></div>`;
+  }
+
+  // PSYCH TOPIC
+  if(currS.psych){
+    body+=`<div class="ms"><div class="ms-title">🧠 Psychological Topic</div>
+    <div class="psych-box"><div class="psych-title">Session Psych Focus</div><div class="psych-body">${currS.psych}</div></div></div>`;
+  }
+
+  // BATE COACHING NOTES
+  if(currS.bate){
+    body+=`<div class="ms"><div class="ms-title">⚡ Bate Pressing Framework Notes</div>
+    <div class="bate-box"><div class="bate-title">Coach Reference — Bate/Dick Pressing</div><div class="bate-body">`;
+    currS.bate.split('.').filter(s=>s.trim().length>5).forEach(point=>{
+      body+=`<div class="bate-point">${point.trim()}.</div>`;
+    });
+    body+=`</div></div></div>`;
+  }
+
+  // SEASON PRIORITIES REMINDER
+  body+=`<div class="ms"><div class="ms-title">Season Threads (Every Session)</div>
+  <div style="display:flex;flex-wrap:wrap;gap:6px">
+    <span class="ms-tag" style="border-color:var(--matchday);color:var(--matchday)">A to D Transition</span>
+    <span class="ms-tag" style="border-color:var(--activation);color:var(--activation)">Pre-Reception Scanning</span>
+    <span class="ms-tag" style="border-color:var(--recovery);color:var(--recovery)">Aerial Receiving — Brennan + Micah J</span>
+  </div></div>`;
+
+  document.getElementById('modalBody').innerHTML=body;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function closeModal(){document.getElementById('modalOverlay').classList.remove('open');}
+function closeModalOutside(e){if(e.target===document.getElementById('modalOverlay'))closeModal();}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+
+// =====================================================================
+// MATCH MANAGER
+// =====================================================================
+function addMatch(){
+  const d=document.getElementById('mdDate').value;const o=document.getElementById('mdOpp').value.trim();
+  if(!d)return;
+  matchDays[d]=o||'TBD';
+  document.getElementById('mdDate').value='';document.getElementById('mdOpp').value='';
+  renderCalendar();if(selectedDate)selectDay(selectedDate);
+}
+function removeMatch(s){
+  delete matchDays[s];renderCalendar();
+  if(selectedDate===s){selectedDate=null;document.getElementById('detailPanel').innerHTML=`<div class="detail-empty"><div class="detail-empty-icon">📋</div><div class="detail-empty-text">Select a day</div></div>`;}
+  else if(selectedDate)selectDay(selectedDate);
+}
+function renderChips(){
+  const c=document.getElementById('matchChips');c.innerHTML='';
+  Object.keys(matchDays).sort().forEach(s=>{
+    const d=pd(s);const lbl=d.toLocaleDateString('en-US',{month:'short',day:'numeric'})+(matchDays[s]&&matchDays[s]!=='TBD'?` — ${matchDays[s]}`:'');
+    const chip=document.createElement('div');chip.className='chip';
+    chip.innerHTML=`${lbl} <span class="chip-x" onclick="removeMatch('${s}')">✕</span>`;c.appendChild(chip);
+  });
+  Object.keys(TOURNAMENT).forEach(s=>{
+    const d=pd(s);const lbl=d.toLocaleDateString('en-US',{month:'short',day:'numeric'})+' — Pre-Season Tournament';
+    const chip=document.createElement('div');chip.className='chip tournament';chip.innerHTML=`🏆 ${lbl}`;c.appendChild(chip);
+  });
+}
+
+function scrollToToday(){
+  const t=ds(new Date());const cell=document.querySelector(`[data-date="${t}"]`);
+  if(cell){cell.scrollIntoView({behavior:'smooth',block:'center'});selectDay(t);}
+}
+
+renderCalendar();
+</script>
+</body>
+</html>
