@@ -134,6 +134,70 @@ header{background:var(--dark);border-bottom:2px solid var(--gold);padding:14px 2
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
 
 @media(max-width:900px){.app-body{grid-template-columns:1fr;}.detail-panel{position:static;height:auto;}}
+
+/* VIEW TOGGLE */
+.view-toggle{display:flex;gap:6px;}
+.view-btn{background:none;border:1px solid var(--border);color:var(--muted);padding:7px 14px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;transition:all .2s;}
+.view-btn:hover{border-color:var(--gold);color:var(--gold);}
+.view-btn.active{background:var(--gold);color:var(--black);border-color:var(--gold);font-weight:600;}
+
+/* GK TAB */
+.gk-panel{display:none;padding:24px;max-width:1100px;margin:0 auto;}
+.gk-panel.visible{display:block;}
+.app-body.gk-mode{display:none;}
+
+.gk-hero{background:linear-gradient(135deg,rgba(245,166,35,.12),rgba(245,166,35,.03));border:1px solid rgba(245,166,35,.3);border-radius:12px;padding:24px;margin-bottom:24px;}
+.gk-hero-title{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:3px;color:var(--gold);margin-bottom:4px;}
+.gk-hero-sub{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:3px;text-transform:uppercase;margin-bottom:16px;}
+.gk-hero-tags{display:flex;flex-wrap:wrap;gap:8px;}
+.gk-tag{padding:4px 12px;border-radius:20px;font-family:'DM Mono',monospace;font-size:10px;border:1px solid;letter-spacing:1px;}
+
+.gk-section{margin-bottom:32px;}
+.gk-section-title{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:3px;color:var(--gold);border-bottom:1px solid var(--border);padding-bottom:8px;margin-bottom:16px;}
+
+/* PHILOSOPHY CARDS */
+.phil-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;}
+.phil-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px;border-top:3px solid;}
+.phil-card-phase{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:3px;text-transform:uppercase;margin-bottom:8px;}
+.phil-card-title{font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:2px;margin-bottom:10px;color:var(--white);}
+.phil-card-body{font-size:11px;color:var(--muted);line-height:1.8;}
+.phil-card-cue{margin-top:10px;padding:8px 10px;border-radius:6px;border-left:3px solid;font-size:11px;font-style:italic;color:var(--white);background:rgba(255,255,255,.03);}
+
+/* MD GUIDE */
+.md-guide-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;}
+.md-guide-card{background:var(--card);border:1px solid var(--border);border-radius:9px;padding:14px;}
+.md-guide-label{font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:2px;margin-bottom:4px;}
+.md-guide-type{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+.md-guide-items{font-size:11px;color:var(--muted);line-height:1.9;}
+.md-guide-items span{display:block;}
+.md-guide-items b{color:var(--white);}
+
+/* SESSION LIBRARY */
+.block-tabs{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap;}
+.block-tab{background:none;border:1px solid var(--border);color:var(--muted);padding:6px 14px;border-radius:6px;font-family:'DM Mono',monospace;font-size:11px;cursor:pointer;transition:all .2s;letter-spacing:1px;}
+.block-tab:hover{border-color:var(--gold);color:var(--gold);}
+.block-tab.active{border-color:var(--gold);color:var(--black);background:var(--gold);font-weight:600;}
+
+.session-lib{display:none;}
+.session-lib.visible{display:block;}
+.session-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px;}
+.gk-session-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px;border-left:3px solid;}
+.gk-sc-md{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;}
+.gk-sc-title{font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:1px;color:var(--white);margin-bottom:8px;}
+.gk-sc-section{margin-bottom:8px;}
+.gk-sc-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:3px;}
+.gk-sc-text{font-size:11px;color:var(--muted);line-height:1.7;}
+.gk-sc-cue{margin-top:10px;padding:8px 10px;border-radius:6px;font-size:11px;font-style:italic;background:rgba(245,166,35,.06);border-left:3px solid var(--gold);color:var(--white);}
+
+/* ROUTINES */
+.routines-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;}
+.routine-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px;}
+.routine-num{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--gold);margin-bottom:4px;}
+.routine-title{font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:1px;color:var(--white);margin-bottom:8px;}
+.routine-org{font-size:10px;color:var(--muted);font-family:'DM Mono',monospace;margin-bottom:8px;padding:4px 8px;background:var(--dark);border-radius:4px;display:inline-block;}
+.routine-body{font-size:11px;color:var(--muted);line-height:1.8;}
+.routine-body b{color:var(--white);}
+
 </style>
 </head>
 <body>
@@ -146,7 +210,13 @@ header{background:var(--dark);border-bottom:2px solid var(--gold);padding:14px 2
       <div class="header-sub">Tactical Periodization — 2026 Season</div>
     </div>
   </div>
-  <a href="https://trozier.github.io/stivers-field-guide/" class="nav-btn">← Field Guide</a>
+  <div style="display:flex;align-items:center;gap:10px;">
+    <div class="view-toggle">
+      <button class="view-btn active" id="btnCalendar" onclick="showView('calendar')">📅 Calendar</button>
+      <button class="view-btn" id="btnGK" onclick="showView('gk')">🧤 GK Curriculum</button>
+    </div>
+    <a href="https://trozier.github.io/stivers-field-guide/" class="nav-btn">← Field Guide</a>
+  </div>
 </header>
 
 <div class="app-body">
@@ -191,6 +261,387 @@ header{background:var(--dark);border-bottom:2px solid var(--gold);padding:14px 2
   </div>
 </div>
 </div>
+
+<!-- GK CURRICULUM PANEL -->
+<div class="gk-panel" id="gkPanel">
+
+  <!-- HERO -->
+  <div class="gk-hero">
+    <div class="gk-hero-title">🧤 Goalkeeper Curriculum</div>
+    <div class="gk-hero-sub">Coach Caseam — 2026 Season · Stivers Men&#39;s Varsity Soccer</div>
+    <div class="gk-hero-tags">
+      <span class="gk-tag" style="border-color:var(--gold);color:var(--gold)">First Attacker Mentality</span>
+      <span class="gk-tag" style="border-color:var(--activation);color:var(--activation)">Communication Standard</span>
+      <span class="gk-tag" style="border-color:var(--recovery);color:var(--recovery)">D to A Transition</span>
+      <span class="gk-tag" style="border-color:var(--resistance);color:var(--resistance)">Far Post Priority</span>
+      <span class="gk-tag" style="border-color:var(--reaction);color:var(--reaction)">4-4-2 Game Model</span>
+    </div>
+  </div>
+
+  <!-- PHILOSOPHY -->
+  <div class="gk-section">
+    <div class="gk-section-title">GK Philosophy — The Four Phases</div>
+    <div class="phil-grid">
+
+      <div class="phil-card" style="border-top-color:var(--activation)">
+        <div class="phil-card-phase" style="color:var(--activation)">Phase 1</div>
+        <div class="phil-card-title">In Possession</div>
+        <div class="phil-card-body">
+          The GK is the first attacker — not a spectator. Once the ball is secured, the mentality shifts immediately to attack. The first pass dictates how the team moves forward.<br><br>
+          • Play away from pressure, never into it<br>
+          • Build wide first — play to the wing, wing carries, then combine<br>
+          • If pressing trap is on wide → play to the dropping center mid<br>
+          • As the ball moves forward, the GK advances with it — stays available for drops and weak-side switches<br>
+          • Footwork must be there to execute — it's the foundation of everything in possession
+        </div>
+        <div class="phil-card-cue" style="border-color:var(--activation)">"The pass you make dictates how we move forward."</div>
+      </div>
+
+      <div class="phil-card" style="border-top-color:var(--resistance)">
+        <div class="phil-card-phase" style="color:var(--resistance)">Phase 2</div>
+        <div class="phil-card-title">Attacking → Defending (A to D)</div>
+        <div class="phil-card-body">
+          The moment possession is lost, recover to goal immediately. The GK should not be sitting on the 6-yard line — they are pushed up. Recovery is the first response.<br><br>
+          • Recover to defending position — no hesitation<br>
+          • Simultaneously organize and align the back line while dropping<br>
+          • Get the back four in correct shape and funnel together<br>
+          • The GK and the fullback must be in sync — they are the two biggest communicators on the team
+        </div>
+        <div class="phil-card-cue" style="border-color:var(--resistance)">"Not only drops into defending position — gets the defense in line."</div>
+      </div>
+
+      <div class="phil-card" style="border-top-color:var(--speed)">
+        <div class="phil-card-phase" style="color:var(--speed)">Phase 3</div>
+        <div class="phil-card-title">Out of Possession</div>
+        <div class="phil-card-body">
+          Correct positioning stops the first shot. The GK must be in the right place before the shot is taken — not reacting after.<br><br>
+          • Near post is already covered — far post is the priority concern<br>
+          • When ball is central: push off the goal line and cut down angles<br>
+          • When ball is wide: move in line with ball, prepare for near-post shot and far-post cross<br>
+          • All saves aren't catches — get it out and away when necessary<br>
+          • Far post footwork drills are non-negotiable for this reason
+        </div>
+        <div class="phil-card-cue" style="border-color:var(--speed)">"Correct positioning stops the first shot."</div>
+      </div>
+
+      <div class="phil-card" style="border-top-color:var(--recovery)">
+        <div class="phil-card-phase" style="color:var(--recovery)">Phase 4</div>
+        <div class="phil-card-title">Defending → Attacking (D to A)</div>
+        <div class="phil-card-body">
+          When the ball is won — carry it as long as possible. A GK pressing forward forces a defender to press them, which creates an overload and a numerical advantage for the team.<br><br>
+          • Ball secured → carry forward → force a press → play into the overload<br>
+          • 10v10 becomes 9v10 for the opponent the moment the GK draws that press<br>
+          • Goal kick progression: wide first → dropping mid → long option to the forward making a run<br>
+          • GK reads the game emotionally — if one option keeps failing, adjust to the next<br>
+          • Confidence in footwork + decision-making is what makes this work
+        </div>
+        <div class="phil-card-cue" style="border-color:var(--recovery)">"Carry the ball — force them to press you, create the overload."</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MD GUIDE -->
+  <div class="gk-section">
+    <div class="gk-section-title">GK Session by Match Day</div>
+    <div class="md-guide-grid">
+
+      <div class="md-guide-card" style="border-top:2px solid var(--resistance)">
+        <div class="md-guide-label" style="color:var(--resistance)">MD-4</div>
+        <div class="md-guide-type">Resistance Day — High Volume</div>
+        <div class="md-guide-items">
+          <span><b>Duration:</b> 30–45 min standalone, then joins full group</span>
+          <span><b>Load:</b> Full technical volume — diving, footwork, crosses</span>
+          <span><b>Focus:</b> Handling foundation, The Box, distribution decisions</span>
+          <span><b>Format:</b> Warm-up → Main Theme → fold into 8v8</span>
+        </div>
+      </div>
+
+      <div class="md-guide-card" style="border-top:2px solid var(--speed)">
+        <div class="md-guide-label" style="color:var(--speed)">MD-3</div>
+        <div class="md-guide-type">Speed Endurance Day — Moderate Load</div>
+        <div class="md-guide-items">
+          <span><b>Duration:</b> 30–45 min standalone, then joins full group</span>
+          <span><b>Load:</b> Moderate — game context introduced</span>
+          <span><b>Focus:</b> Crossing work, angle play, communication with back line</span>
+          <span><b>Format:</b> Warm-up → Main Theme → fold into 6v6+4 or SSG</span>
+        </div>
+      </div>
+
+      <div class="md-guide-card" style="border-top:2px solid var(--reaction)">
+        <div class="md-guide-label" style="color:var(--reaction)">MD-2</div>
+        <div class="md-guide-type">Reaction Speed Day — Light Touch</div>
+        <div class="md-guide-items">
+          <span><b>Duration:</b> 20 min max — folds in quickly</span>
+          <span><b>Load:</b> Light — no diving or collapsing</span>
+          <span><b>Focus:</b> Handling in pairs, light distribution, sharpness</span>
+          <span><b>Format:</b> Hands and feet → angle shots → join team</span>
+        </div>
+      </div>
+
+      <div class="md-guide-card" style="border-top:2px solid var(--activation)">
+        <div class="md-guide-label" style="color:var(--activation)">MD-1</div>
+        <div class="md-guide-type">Activation Day — Full Team Only</div>
+        <div class="md-guide-items">
+          <span><b>Duration:</b> No separate GK session</span>
+          <span><b>Load:</b> Full team day — GK trains with group</span>
+          <span><b>Focus:</b> Pre-game routine — ladders, angle shots, shot handling</span>
+          <span><b>Format:</b> Pre-game warm-up routine + shadow play + set pieces</span>
+        </div>
+      </div>
+
+      <div class="md-guide-card" style="border-top:2px solid var(--matchday)">
+        <div class="md-guide-label" style="color:var(--matchday)">MD-0</div>
+        <div class="md-guide-type">Match Day</div>
+        <div class="md-guide-items">
+          <span><b>Duration:</b> Pre-game warm-up only</span>
+          <span><b>Focus:</b> Confidence — end every set with a save</span>
+          <span><b>Format:</b> 2 min own work → ladders → shot handling → angle shots</span>
+          <span><b>Note:</b> Adapt for conditions (wet surface, glare, turf)</span>
+        </div>
+      </div>
+
+      <div class="md-guide-card" style="border-top:2px solid var(--compensatory)">
+        <div class="md-guide-label" style="color:var(--muted)">MD+1</div>
+        <div class="md-guide-type">Recovery Day</div>
+        <div class="md-guide-items">
+          <span><b>Duration:</b> No separate GK session</span>
+          <span><b>Load:</b> Recovery only</span>
+          <span><b>Focus:</b> Optional light handling in pairs if Caseam wants to stay sharp</span>
+          <span><b>Format:</b> Jog, stretch, optional paired throws — nothing strenuous</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SESSION LIBRARY -->
+  <div class="gk-section">
+    <div class="gk-section-title">Session Library by Block</div>
+    <div class="block-tabs">
+      <button class="block-tab active" onclick="showBlock('b1')">Block 1 — Pre-Season</button>
+      <button class="block-tab" onclick="showBlock('b2')">Block 2 — Early Season</button>
+      <button class="block-tab" onclick="showBlock('b3')">Block 3 — Mid/Late Season</button>
+      <button class="block-tab" onclick="showBlock('b4')">Tournament Prep</button>
+    </div>
+
+    <!-- BLOCK 1 -->
+    <div class="session-lib visible" id="lib-b1">
+      <div class="session-cards">
+
+        <div class="gk-session-card" style="border-left-color:var(--resistance)">
+          <div class="gk-sc-md" style="color:var(--resistance)">MD-4 · Block 1 · High Volume</div>
+          <div class="gk-sc-title">Handling Foundation + The Box</div>
+          <div class="gk-sc-section">
+            <div class="gk-sc-label">Warm-Up (15 min)</div>
+            <div class="gk-sc-text">The Box footwork series — 3×3×10-yd grid. Side to side (feet and hands). Move forward to side panels. Forward to front panel. Pass back to coach between sets. 3 sets / 6–8 reps per set.</div>
+          </div>
+          <div class="gk-sc-section">
+            <div class="gk-sc-label">Main Theme (25 min)</div>
+            <div class="gk-sc-text">Handling in the goal — progress side to side from 12 yards. Head height, scoop below waist, waist height, overhead. Then side to side using full goal width. Forward/backward movement in the 6-yard box. 4–6 serves each position. One keeper works, one stretches.</div>
+          </div>
+          <div class="gk-sc-section">
+            <div class="gk-sc-label">Serving Areas</div>
+            <div class="gk-sc-text">Penalty spot · Off the angle (12 yds, 4 yds outside) · Edge of the D · 6–8 reps each area</div>
+          </div>
+          <div class="gk-sc-cue">"First attacker mentality — build the habits that make the first pass reliable."</div>
+        </div>
+
+        <div class="gk-session-card" style="border-left-color:var(--speed)">
+          <div class="gk-sc-md" style="color:var(--speed)">MD-3 · Block 1 · Moderate Load</div>
+          <div class="gk-sc-title">Distribution — First Attacker in Action</div>
+          <div class="gk-sc-section">
+            <div class="gk-sc-label">Warm-Up (15 min)</div>
+            <div class="gk-sc-text">18-yard channel footwork (3 yds wide). Jog outside / backpedal inside. Slalom cone to cone. Touch low, leap high on opposite side (2×6). Coach moves backward serving as keeper works forward. Save high / save low combos.</div>
+          </div>
+          <div class="gk-sc-section">
+            <div class="gk-sc-label">Main Theme (25 min)</div>
+            <div class="gk-sc-text"><b>Central:</b> Receive (catch or feet), open with 1st touch, dribble to corner of 18-yard area, recover back without ball. Pass to gates.<br><br><b>Side-on:</b> Receive and open with 1st touch to play — short target (outside back), intermediate (outside mid), long (target). Work both kicks and throws.<br><br>Philosophy: First look always long to stretch opponents defensively. If wide option fails — play to the dropping center mid.</div>
+          </div>
+          <div class="gk-sc-section">
+            <div class="gk-sc-label">Game Integration</div>
+            <div class="gk-sc-text">Folds into 8v8 or 6v6+4. GK focus: starting positions, communication with back four, interaction with team.</div>
+          </div>
+          <div class="gk-sc-cue">"Play away from pressure, not into it. The pass you make dictates how we move forward."</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- BLOCK 2 -->
+    <div class="session-lib" id="lib-b2">
+      <div class="session-cards">
+
+        <div class="gk-session-card" style="border-left-color:var(--resistance)">
+          <div class="gk-sc-md" style="color:var(--resistance)">MD-4 · Block 2 · High Volume</div>
+          <div class="gk-sc-title">Shot Handling + Cross/Shot Combos</div>
+          <div class="gk-sc-section">
+            <div class="gk-sc-label">Warm-Up (15 min)</div>
+            <div class="gk-sc-text">Shot handling in goal — two servers 8 yards out, even with the posts. Slingshot serves to head/shoulder height. Bowled serves on floor (scooped save). One low / one volleyed, alternate sides. High ball — claim at crossbar height. Both volley: one set at posts / one set angled in. 3 sets / 6–8 reps per set.</div>
+          </div>
+          <div class="gk-sc-section">
+            <div class="gk-sc-label">Main Theme (25 min)</div>
+            <div class="gk-sc-text"><b>Cross/Shot Combos:</b> One keeper on flank, coach in and around box. Keeper takes cross → distributes to determined side → takes shot from coach.<br><br><b>3 Service Areas:</b> 30 yards · 15 yards · 5 yards<br><b>Targets:</b> Front post · Central · Back post<br><b>Shot locations:</b> Off opposite angle · Same-side angle · Inside/outside box<br><br>Rebounds are live. Always end with a save.</div>
+          </div>
+          <div class="gk-sc-section">
+            <div class="gk-sc-label">Coaching Points</div>
+            <div class="gk-sc-text">Crosses: Assess ball early — attack ball late. Shots: Recovery movement → set position → recovery saves. Distribution: Look to throw to side the serve takes you — hit gaps behind server to set counter attack.</div>
+          </div>
+          <div class="gk-sc-cue">"Assess early, attack late. Far post is the biggest concern — near post is already covered."</div>
+        </div>
+
+        <div class="gk-session-card" style="border-left-color:var(--speed)">
+          <div class="gk-sc-md" style="color:var(--speed)">MD-3 · Block 2 · Moderate Load</div>
+          <div class="gk-sc-title">Crossing — Range + Decision-Making</div>
+          <div class="gk-sc-section">
+            <div class="gk-sc-label">Warm-Up (15 min)</div>
+            <div class="gk-sc-text">The Gate — falling/collapsing focus (6-yard wide gate with coaching sticks). Various starting positions: on side, redirections. Serves: volleys, half-volleys, sidewinders. 3 sets / 6–8 reps per set.</div>
+          </div>
+          <div class="gk-sc-section">
+            <div class="gk-sc-label">Main Theme (25 min)</div>
+            <div class="gk-sc-text"><b>Increasing range in the goal — crosses:</b><br>Central: Side to side, width of posts. Side-on: Forward/backward from front post. Touch the post: Cutbacks from the end line — force collapse dive save.<br><br><b>6-Yard Box:</b> Hand serves from edge of six — resistance from 2nd keeper.<br><b>18-Yard Box:</b> Crosses from outside (5, 15, 30 yards). Inswinging and outswinging. Resistance from 2nd keeper. Throw back to opposite server. Coach at top of box — shot after cross is dealt with.</div>
+          </div>
+          <div class="gk-sc-section">
+            <div class="gk-sc-label">Game Integration</div>
+            <div class="gk-sc-text">6v6+4 — 4 players in wide zones, goal must come from a crossed ball. GK focus: Protect near post, organize defenders at back post. Catch/punch/box decision on every cross.</div>
+          </div>
+          <div class="gk-sc-cue">"All saves aren't catches — get it out and away when needed."</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- BLOCK 3 -->
+    <div class="session-lib" id="lib-b3">
+      <div class="session-cards">
+
+        <div class="gk-session-card" style="border-left-color:var(--resistance)">
+          <div class="gk-sc-md" style="color:var(--resistance)">MD-4 · Block 3 · High Volume</div>
+          <div class="gk-sc-title">Distribution Under Pressure + D to A Transition</div>
+          <div class="gk-sc-section">
+            <div class="gk-sc-label">Warm-Up (15 min)</div>
+            <div class="gk-sc-text">Handling in goal — various ball movement. Still ball. Moving towards keeper. Moving away from keeper. Moving across the keeper. Get in line with ball quickly. Key is balance in the set position.</div>
+          </div>
+          <div class="gk-sc-section">
+            <div class="gk-sc-label">Main Theme (25 min)</div>
+            <div class="gk-sc-text"><b>Distribution decisions under pressure:</b><br>When ahead — slow tempo, play short, retain possession.<br>When behind — look long first and fast. Furthest option first.<br><br>Carry the ball as long as possible to draw press → create overload. 10v10 becomes 9v10 the moment GK draws that press. Once the forward is drawn in — play into the advantage.</div>
+          </div>
+          <div class="gk-sc-section">
+            <div class="gk-sc-label">Game Integration</div>
+            <div class="gk-sc-text">6v6v6 — angle play focus + D to A role switch. GK focus: Change of mode from defending to attacking. Change of mentality — instantaneous. Starting positions further off line.</div>
+          </div>
+          <div class="gk-sc-cue">"Carry the ball — force them to press you, create the overload."</div>
+        </div>
+
+        <div class="gk-session-card" style="border-left-color:var(--speed)">
+          <div class="gk-sc-md" style="color:var(--speed)">MD-3 · Block 3 · Moderate Load</div>
+          <div class="gk-sc-title">Angle Play + 1v1 Decision-Making</div>
+          <div class="gk-sc-section">
+            <div class="gk-sc-label">Warm-Up (15 min)</div>
+            <div class="gk-sc-text">Ladder footwork — quick feet, side to side. Handling in the goal: volleys to hands, collapse diving from side, shots off the angles. K1 in goal, K2 in front with ball. K2 bowls to coach at top of box. Coach shoots one-time strike. Keepers rotate. Serving keeper starts passive → progresses to screen working keeper.</div>
+          </div>
+          <div class="gk-sc-section">
+            <div class="gk-sc-label">Main Theme (25 min)</div>
+            <div class="gk-sc-text"><b>1v1 angle play:</b> Close shooters down — cut the angle before the shot. Set position before ball is struck. Recovery movement after every save.<br><br><b>Starting positions:</b> Get higher off the line when ball is 30–40 yards away. Stay active and switched on. Be alive — all rebounds are live until secured.<br><br>4v4+6: Full goals, 20×40-yard area. GK focus: quickness and alertness to dangerous situations, 1v1s with shooters.</div>
+          </div>
+          <div class="gk-sc-cue">"Correct positioning stops the first shot. If in position to win it — win it."</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- BLOCK 4 / TOURNAMENT -->
+    <div class="session-lib" id="lib-b4">
+      <div class="session-cards">
+
+        <div class="gk-session-card" style="border-left-color:var(--b4)">
+          <div class="gk-sc-md" style="color:var(--b4)">MD-3 · Tournament Prep · Sharp + Controlled</div>
+          <div class="gk-sc-title">Pre-Tournament Sharpening — Shot + Cross</div>
+          <div class="gk-sc-section">
+            <div class="gk-sc-label">Warm-Up (15 min)</div>
+            <div class="gk-sc-text">2 min on your own — jog, stretch, knock a ball around. Shot handling: quick but balanced movement between saves. Two servers 8 yards out. Slingshot serves. One low / one high alternating. Quicken pace each set. End every set with a save — always finish on success.</div>
+          </div>
+          <div class="gk-sc-section">
+            <div class="gk-sc-label">Main Theme (20 min)</div>
+            <div class="gk-sc-text">Best cross/shot combo routine from the season — the one that got the sharpest response. Run it clean. No new serves, no new progressions. Confidence only.<br><br>GK focus: Reading the ball. Starting positions. Catch/punch/box decision at full game speed.</div>
+          </div>
+          <div class="gk-sc-section">
+            <div class="gk-sc-label">No New Concepts Rule</div>
+            <div class="gk-sc-text">Zero new information this week. Run what was built. Caseam's role: energy and confidence. The coaching is done — trust what was installed across Blocks 1–3.</div>
+          </div>
+          <div class="gk-sc-cue">"Tournament football — the press standard doesn't drop. It rises."</div>
+        </div>
+
+        <div class="gk-session-card" style="border-left-color:var(--b4)">
+          <div class="gk-sc-md" style="color:var(--b4)">MD-1 · Match Day Eve · Full Team</div>
+          <div class="gk-sc-title">Pre-Game Routine</div>
+          <div class="gk-sc-section">
+            <div class="gk-sc-label">Routine (25 min with team)</div>
+            <div class="gk-sc-text">Jog and stretch with full group. Possession game — GK joins in (5v2s are great for touch, mobility, and relationship).<br><br>Then GK-specific: Ladder footwork → hands and feet → angle shots from penalty spot, off the angle, edge of D → shot handling (movement between saves: quick but balanced).<br><br>Adapt for conditions: wet surface → more skipping balls. Glare → address ball-reading early. Turf → distribution practice with pass backs.</div>
+          </div>
+          <div class="gk-sc-section">
+            <div class="gk-sc-label">Shadow Play + Set Pieces</div>
+            <div class="gk-sc-text">Cross and finishing — three groups: one each flank, one central. Three-man pattern with cross. Movement in box: front post, back post, penalty spot. GK focus: stay/go decision on corners. Organize the wall.</div>
+          </div>
+          <div class="gk-sc-cue">"One voice in the box. GK and fullback in sync — those two must be in cahoots."</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- FAVORITE ROUTINES -->
+  <div class="gk-section">
+    <div class="gk-section-title">Coach P Toolkit — Favorite Routines</div>
+    <div class="routines-grid">
+
+      <div class="routine-card">
+        <div class="routine-num">ROUTINE 01</div>
+        <div class="routine-title">The Box</div>
+        <div class="routine-org">3×3×10-yd grid · 2 keepers · 8–10 balls</div>
+        <div class="routine-body">Footwork focus. Starting at back panel with a pass back to coach.<br><br><b>Progression:</b> Side to side (feet and hands) → move forward to side panels → forward from outside to front panels → same sequence with pass to 2nd keeper as target.<br><br>3 sets each / 6–8 reps per set. Add falling/collapsing: start on side, on coach's call get to feet and step through front panel to save. Progress to two saves (dead ball + volley). 4 reps / 2 saves each.</div>
+      </div>
+
+      <div class="routine-card">
+        <div class="routine-num">ROUTINE 02</div>
+        <div class="routine-title">K1/K2 Shot Rotation</div>
+        <div class="routine-org">Full goal · coach at top of box · 8–10 balls</div>
+        <div class="routine-body">K1 in goal, K2 in front with ball.<br><br>K2 bowls to coach at top of box. Coach shoots one-time strike at goal. Keepers rotate — K1 bowls to coach. Serving keeper starts passive → progresses to screen working keeper.<br><br><b>Progression:</b> K1 in goal with ball, K2 in front. K1 bowls through K2's legs. One-touch shot from coach — K2 saves. Progress to same but K2 facing K1 on serve, then turns to save.<br><br>6–10 saves / 2 sets each. All rebounds live.</div>
+      </div>
+
+      <div class="routine-card">
+        <div class="routine-num">ROUTINE 03</div>
+        <div class="routine-title">18-Yard Channel Footwork</div>
+        <div class="routine-org">18-yd long channel · 3 yds wide · cones</div>
+        <div class="routine-body">Jog outside, backpedal inside (2×4). Slalom cone to cone (1×6). Slalom touching cones with hands — sharper (1×6). Touch low, leap high on opposite side (2×6). Touch low, catch high ball (2×6). Coach moves backward serving as keeper works forward (2×6). Leap high, fall on low ball (2×6). Save high/save low (2×6). Save low/save high (2×6).<br><br>Stretch with medicine ball between sets. This is a warm-up with purposeful build-up.</div>
+      </div>
+
+      <div class="routine-card">
+        <div class="routine-num">ROUTINE 04</div>
+        <div class="routine-title">Cross/Shot Combo</div>
+        <div class="routine-org">Full goal · flank server · coach at D · 3 service areas</div>
+        <div class="routine-body">One keeper on flank. Coach in and around the box. Keeper takes cross → distributes to determined side → gets in line with coach → takes shot from coach.<br><br><b>3 Service Areas:</b> 30 yards · 15 yards · 5 yards from end line<br><b>Targets:</b> Front post · Central · Back post<br><b>Shot locations:</b> Off opposite angle · Same-side angle · In/outside box<br><br>Variation: Coach chooses not to shoot — observe for drop in form or fatigue. 3–5 crosses each area. Change sides.</div>
+      </div>
+
+      <div class="routine-card">
+        <div class="routine-num">ROUTINE 05</div>
+        <div class="routine-title">Four Man Back Pass Rotation</div>
+        <div class="routine-org">18-yd area · 2 full goals · 8–10 balls</div>
+        <div class="routine-body">Keepers work in pairs — 2 keepers at either side of the 18-yard area, 2 inside about 5–7 yards away. Ball starts with long ball to opposite side. Pair of keepers exchange double pass, then ball sent long to other side. Keepers change position when ball is on the other side.<br><br><b>Options long ball:</b> All throwing · All feet · Combo<br><b>Options exchange:</b> All feet · All catching/throwing · Catch long ball, bowl to inside keeper for one-time shot<br><br>Sharpens footwork and distribution under movement pressure.</div>
+      </div>
+
+      <div class="routine-card">
+        <div class="routine-num">ROUTINE 06</div>
+        <div class="routine-title">Increase Range — Front Post</div>
+        <div class="routine-org">Full goal · coach at side edge of 6-yd box · 8–10 balls</div>
+        <div class="routine-body">Gets feet moving and builds confidence commanding the 18-yard area.<br><br><b>Keeper starts middle of goal:</b> Low ball for keeper to scoop.<br><b>Keeper at front post:</b> Looping serve — keeper backpedals and catches overhead.<br><b>Keeper top of six at front post:</b> Move down to touch near post → dive for low ball back across goal.<br><br>Optional: Add second shooter at top of box to increase difficulty. This routine directly trains far post footwork — the priority area in Caseam's philosophy.</div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+<!-- END GK PANEL -->
 
 <!-- FULL SESSION BRIEF MODAL -->
 <div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
@@ -622,6 +1073,37 @@ function scrollToToday(){
 }
 
 renderCalendar();
+
+// =====================================================================
+// VIEW TOGGLE — CALENDAR vs GK
+// =====================================================================
+function showView(view){
+  const calBody = document.querySelector('.app-body');
+  const gkPanel = document.getElementById('gkPanel');
+  const btnCal = document.getElementById('btnCalendar');
+  const btnGK = document.getElementById('btnGK');
+  if(view==='gk'){
+    calBody.style.display='none';
+    gkPanel.classList.add('visible');
+    btnCal.classList.remove('active');
+    btnGK.classList.add('active');
+  } else {
+    calBody.style.display='';
+    gkPanel.classList.remove('visible');
+    btnCal.classList.add('active');
+    btnGK.classList.remove('active');
+  }
+}
+
+// =====================================================================
+// BLOCK TAB SWITCHER — GK SESSION LIBRARY
+// =====================================================================
+function showBlock(block){
+  document.querySelectorAll('.session-lib').forEach(el=>el.classList.remove('visible'));
+  document.querySelectorAll('.block-tab').forEach(el=>el.classList.remove('active'));
+  document.getElementById('lib-'+block).classList.add('visible');
+  event.target.classList.add('active');
+}
 </script>
 </body>
 </html>
