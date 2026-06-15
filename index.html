@@ -667,7 +667,7 @@ const CURRICULUM = {
     {num:'S2', topic:'1v1 Skills Builder Vol. 2 — Dribbling to Beat Defenders', keys:'Chase the Ace (CK). Diamond Dribbler, 4 Way Dribble Gates, 4 Way Dribble Gates + GKs (Rozier). SAQ + Plyo. Pyramid of Pain finisher.', psych:'Commitment to the work.', scan:'N/A — technical focus.'},
     {num:'S3', topic:'Ball Mastery + Reversed Mini Goals — Super 6', keys:'Cut Circle, Drag Circle, V-Move, Maradona, Dribble Cut w/ Conti. Sprints: 3×20m + Partner Chase W formation (~175m). Death by 10 Meters finisher.', psych:'Competitive standard introduced.', scan:'N/A.'},
     {num:'S4', topic:'1v1 Skills Builder — SAQ + Plyo Day', keys:'SAQ + Plyo block. Ball mastery + 1v1 drill sequence. SSG closer. Tiger Eye or fatigue menu finisher.', psych:'Effort standard.', scan:'N/A — technical.'},
-    {num:'S5', topic:'2v1 Introduction — Color Game  |  Peters/Schumacher', keys:'Teach: three geometries (frontal, lateral, behind). Color Game (Drill 1): coach calls red/blue/orange, 2v1 forms to goal. Mannequin/popup early, live GK for SSG. SSG: 2v1 Finishing with Opponent Pressure. Juggling. Tiger Eye.', psych:'Trust your teammate.', scan:'Read the geometry before making the decision.'},
+    {num:'S5', topic:'2v1 Introduction — Color Game  |  Peters/Schumacher', keys:'360TFT V-cone ball mastery: Inside Taps, Inside/Outside, Cruyff Turn. Teach: four basic situations (Frontal/Lateral/Behind/Before) — board then grass. Color Game (p.72–73): coach calls RED/BLUE/ORANGE, 2v1 forms. Passive 5–7 min → live defender. SSG: 3v3 + 1 Neutral (p.232–233) to one big goal. Space scales with numbers: 20/26/32 yd width. Finisher: coach\'s call.', psych:'Trust your teammate. The combination creates the chance — not the solo.', scan:'Color call = pre-reception information. Player must process the geometry before the ball arrives. Freeze and ask: what did the color tell you before the ball came?', fieldGuide:'s5'},
     {num:'S6', topic:'2v1 Circuit  |  Peters/Schumacher', keys:'SAQ + Plyo. Teach: timing the pass vs going alone. Circuit Drill (Drill 2): parallel corridors, both sides running simultaneously, GK as target/passer. SSG: Two 2v1 Situations on Two Levels. Juggling. Tiger Eye.', psych:'Unselfishness creates goals.', scan:'Scan to see which corridor is open before the pass.'},
     {num:'S7', topic:'2v1 Pendulum  |  Peters/Schumacher', keys:'Teach: multiple defensive lines, one attacker advances per line. Pendulum Drill (Drill 3): 12×35m corridor, fluid overcoming of three lines. SSG: 3v3 with One Neutral Player. Juggling. Tiger Eye.', psych:'Decision-making under pressure.', scan:'Pre-scan to see which line is exposed before driving forward.'},
     {num:'S8', topic:'2v1 Double Action  |  Peters/Schumacher', keys:'SAQ + Plyo. Teach: two attackers, two consecutive 2v1 moments. Double Action Drill (Drill 4): frontal/lateral/behind/before variants. SSG: From 2v1 to 3v2 — Box Occupation. Juggling. Tiger Eye.', psych:'Finishing with conviction.', scan:'Scan the box before driving into the 3v2.'},
@@ -1021,6 +1021,11 @@ function openModal(){
       body+=`<div class="bate-point">${point.trim()}.</div>`;
     });
     body+=`</div></div></div>`;
+  }
+
+  // FIELD GUIDE LINK
+  if(currS.fieldGuide){
+    body+=`<a href="https://trozier.github.io/stivers-field-guide/#${currS.fieldGuide}" target="_blank" style="display:block;width:100%;background:linear-gradient(135deg,#22d3ee,#0891b2);color:var(--black);border:none;padding:12px;border-radius:8px;font-family:&#39;Bebas Neue&#39;,sans-serif;font-size:16px;letter-spacing:3px;cursor:pointer;margin-top:8px;text-align:center;text-decoration:none;transition:opacity .2s;">🗂 OPEN IN FIELD GUIDE</a>`;
   }
 
   // SEASON PRIORITIES REMINDER
